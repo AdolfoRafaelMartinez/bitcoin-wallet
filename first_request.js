@@ -6,7 +6,7 @@ var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
 
 var raw = JSON.stringify({
-    "method": "eth_blockNumber",
+    "method": "getblockchaininfo",
     "params": [],
     "id": 1,
     "jsonrpc": "2.0"
