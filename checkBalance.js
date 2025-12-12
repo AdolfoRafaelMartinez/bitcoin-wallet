@@ -12,8 +12,12 @@ async function getTestnetBalance(address) {
 
   try {
     const response = await axios.post(QUICKNODE_URL, {
-      method: 'getaddressutxos',
-      params: [{'addresses': [address]}]
+        id: 1,
+        jsonrpc: "2.0",
+        method: "getbestblockhash",
+        params: []
+        // method: 'getaddressutxos',
+        // params: [{'addresses': [address]}]
     });
 
     if (response.data.error) {
@@ -33,5 +37,5 @@ async function getTestnetBalance(address) {
 }
 
 // Replace with the testnet address you want to check
-const testnetAddress = 'tb1qw508d6qejxtdg4y5r3zarvary0c5xw7kxpjzsx'; 
+const testnetAddress = 'tb1qn9rvr53m7qvrpysx48svuxsgahs88xfsskx367';
 getTestnetBalance(testnetAddress);

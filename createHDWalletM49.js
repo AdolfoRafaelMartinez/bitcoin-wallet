@@ -25,7 +25,7 @@ function createHDWallet() {
   const account = root.derivePath(path);
   const { address } = bitcoin.payments.p2sh({
     redeem: bitcoin.payments.p2wpkh({
-      pubkey: Buffer.from(account.publicKey),8
+      pubkey: Buffer.from(account.publicKey),
       network
     }),
     network
