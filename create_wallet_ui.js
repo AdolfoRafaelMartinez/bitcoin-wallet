@@ -25,3 +25,7 @@ document.getElementById('createWalletBtn').addEventListener('click', async () =>
         spinner.style.display = 'none';
     }
 });
+
+document.getElementById('addressInput').addEventListener('change', () => {
+    document.getElementById('createWalletBtn').click();
+});
