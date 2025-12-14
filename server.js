@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 app.use(express.static(__dirname));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'eth_balance.html'));
+  res.sendFile(path.join(__dirname, 'create_wallet.html'));
 });
 
 app.listen(port, () => {
