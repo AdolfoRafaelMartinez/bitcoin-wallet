@@ -10,10 +10,9 @@ const bip32 = BIP32Factory(ecc);
 const network = bitcoin.networks.testnet; // Always use testnet for testing
 const path = `m/49'/1'/0'/0/0`; // Derive a SegWit address (P2WPKH-nested-in-P2SH)
 
-function createHDWallet() {
+export function createHDWallet() {
   // 1. Generate a 12-word mnemonic
   const mnemonic = bip39.generateMnemonic(); // mnemonic code generation for deterministic wallets
-  console.log("Mnemonic (Seed Phrase):", mnemonic);
 
   // 2. Convert mnemonic to seed
   const seed = bip39.mnemonicToSeedSync(mnemonic); // derives a 64-byte binary seed
@@ -31,12 +30,9 @@ function createHDWallet() {
     network
   });
 
-  console.log("-----------------");
-  console.log("New HD Wallet");
-  console.log("-----------------");
-  console.log("Derived Address:", address);
-  console.log("Derived Private Key (WIF):", account.toWIF());
-  console.log("-----------------");
+  return {
+    mnemonic,
+    address,
+    privateKey: account.toWIF()
+  };
 }
-
-createHDWallet();
