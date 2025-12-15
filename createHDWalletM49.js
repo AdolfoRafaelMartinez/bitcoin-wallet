@@ -3,6 +3,7 @@ import { ECPairFactory } from 'ecpair';
 import * as bitcoin from 'bitcoinjs-lib';
 import bip39 from 'bip39';
 import { BIP32Factory } from 'bip32';
+import { Buffer } from 'buffer';
 
 const ECPair = ECPairFactory(ecc);
 const bip32 = BIP32Factory(ecc);
