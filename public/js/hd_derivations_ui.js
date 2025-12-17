@@ -7,10 +7,9 @@ const spinner = document.getElementById('spinner');
 generateKeysBtn.addEventListener('click', () => {
     keysInfoDiv.innerHTML = '';
     spinner.style.display = 'block';
-
     try {
         const keys = generateChildKeys();
-        let keysHtml = '<h3>Derived Child Keys:</h3>';
+        let keysHtml = '';
         keys.forEach(key => {
             keysHtml += `
                 <div>
@@ -21,7 +20,6 @@ generateKeysBtn.addEventListener('click', () => {
                 <hr>
             `;
         });
-
         keysInfoDiv.innerHTML = keysHtml;
     } catch (error) {
         console.error('Error generating keys:', error);
