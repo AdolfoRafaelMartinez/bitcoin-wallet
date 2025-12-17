@@ -10,8 +10,8 @@ router.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../views', 'index.html'));
 });
 
-router.get('/get_accounts', (req, res) => {
-  res.sendFile(path.join(__dirname, '../views', 'get_accounts.html'));
+router.get('/hd_derivations', (req, res) => {
+  res.sendFile(path.join(__dirname, '../views', 'hd_derivations.html'));
 });
 
 router.get('/create_hd_wallet', (req, res) => {
