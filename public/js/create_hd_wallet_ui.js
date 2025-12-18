@@ -30,6 +30,7 @@ createWalletBtn.addEventListener('click', () => {
             <div style="text-align: left; font-size: 2em; margin: 0.5em 0;">&darr;</div>
             <p><strong>root:</strong> (Base64) ${wallet.root.chainCode.toBase64()}</p>
             <div style="text-align: left; font-size: 2em; margin: 0.5em 0;">&darr;</div>
+            <h2>derived key pairs at:</h2>
             ${childKeysHtml}
             <hr>
         `;

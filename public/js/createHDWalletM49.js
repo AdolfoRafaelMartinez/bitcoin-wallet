@@ -8,7 +8,7 @@ import { Buffer } from 'buffer';
 const ECPair = ECPairFactory(ecc);
 const bip32 = BIP32Factory(ecc);
 
-const network = bitcoin.networks.testnet; // Always use testnet for testing
+const network = bitcoin.networks.testnet;
 const path_prefix = `m/49'/1'/0'/0`; 
 
 export function createHDWallet() {
