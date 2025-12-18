@@ -1,5 +1,4 @@
 import { createHDWallet } from './createHDWalletM49.js';
-
 const createWalletBtn = document.getElementById('createWalletBtn');
 const walletInfoDiv = document.getElementById('walletInfo');
 const spinner = document.getElementById('spinner');
@@ -10,7 +9,7 @@ createWalletBtn.addEventListener('click', () => {
 
     try {
         const wallet = createHDWallet();
-        let childKeysHtml = '<h3>Next 10 Child Keys:</h3>';
+        let childKeysHtml = '';
         wallet.childKeys.forEach(key => {
             childKeysHtml += `
                 <div>
@@ -21,11 +20,11 @@ createWalletBtn.addEventListener('click', () => {
                 <hr>
             `;
         });
-
         walletInfoDiv.innerHTML = `
-            <p><strong>Mnemonic (Seed Phrase):</strong> ${wallet.mnemonic}</p>
-            <p><strong>Derived Address:</strong> ${wallet.address}</p>
-            <p><strong>Derived Private Key (WIF):</strong> ${wallet.privateKey}</p>
+            <p><strong>Seed Phrase:</strong> ${wallet.mnemonic}</p>
+            <hr>
+            <p><strong>Address:</strong> ${wallet.address}</p>
+            <p><strong>Private Key (WIF):</strong> ${wallet.privateKey}</p>
             ${childKeysHtml}
         `;
     } catch (error) {
