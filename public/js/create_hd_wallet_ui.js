@@ -18,8 +18,8 @@ createWalletBtn.addEventListener('click', () => {
                 <div>
                     <p>Path:<strong> ${key.path}</strong></p>
                     <p>Address: ${key.address}</p>
-                    <p>Private Key: ${key.privateKey}</p>
-                    <p>Public Key: ${key.publicKey}</p>
+                    <p>Private Key: ${btoa(key.privateKey)}</p>
+                    <p>Public Key: ${btoa(key.publicKey)}</p>
                 </div>
             `;
         });
