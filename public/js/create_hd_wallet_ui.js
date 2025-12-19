@@ -2,13 +2,15 @@ import { createHDWallet } from './createHDWalletM49.js';
 const createWalletBtn = document.getElementById('createWalletBtn');
 const walletInfoDiv = document.getElementById('walletInfo');
 const spinner = document.getElementById('spinner');
+const mnemonicInput = document.getElementById('mnemonicInput');
 
 createWalletBtn.addEventListener('click', () => {
     walletInfoDiv.innerHTML = '';
     spinner.style.display = 'block';
 
     try {
-        const wallet = createHDWallet();
+        const mnemonic = mnemonicInput.value.trim();
+        const wallet = createHDWallet(mnemonic);
         let childKeysHtml = '';
         wallet.childKeys.forEach(key => {
             childKeysHtml += `
@@ -36,7 +38,7 @@ createWalletBtn.addEventListener('click', () => {
         `;
     } catch (error) {
         console.error('Error creating wallet:', error);
-        walletInfoDiv.innerHTML = "Error creating wallet. Please try again.";
+        walletInfoDiv.innerHTML = `Error creating wallet: ${error.message}`;
     } finally {
         spinner.style.display = 'none';
     }

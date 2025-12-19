@@ -11,9 +11,11 @@ const bip32 = BIP32Factory(ecc);
 const network = bitcoin.networks.testnet;
 const path_prefix = `m/49'/1'/0'/0`; 
 
-export function createHDWallet() {
-  // 1. Generate a 12-word mnemonic
-  const mnemonic = bip39.generateMnemonic();
+export function createHDWallet(mnemonic) {
+  // 1. Generate a 12-word mnemonic if not provided
+  if (!mnemonic) {
+    mnemonic = bip39.generateMnemonic();
+  }
 
   // 2. Convert mnemonic to seed
   const seed = bip39.mnemonicToSeedSync(mnemonic); 
