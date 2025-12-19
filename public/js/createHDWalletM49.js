@@ -37,7 +37,8 @@ export function createHDWallet(mnemonic) {
     childKeys.push({
         path: `${path_prefix}/${i}`,
         address: childAddress,
-        privateKey: childAccount.toWIF()
+        privateKey: childAccount.privateKey.toString('hex'),
+        publicKey: childAccount.publicKey.toString('hex')
     });
   }
 

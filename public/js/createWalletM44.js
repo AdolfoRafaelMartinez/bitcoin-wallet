@@ -33,6 +33,7 @@ async function createWallet() {
 
   console.log('Wallet Path:', path);
   console.log('Private Key (WIF):', keyPair.toWIF());
+  console.log('Public Key:', keyPair.publicKey.toString('hex'));
   console.log('Public Address:', address);
 }
 

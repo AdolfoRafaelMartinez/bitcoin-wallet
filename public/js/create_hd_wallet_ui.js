@@ -18,18 +18,19 @@ createWalletBtn.addEventListener('click', () => {
                 <div>
                     <p>Path:<strong> ${key.path}</strong></p>
                     <p>Address: ${key.address}</p>
-                    <p>Private Key: (wif) ${key.privateKey}</p>
+                    <p>Private Key: ${key.privateKey}</p>
+                    <p>Public Key: ${key.publicKey}</p>
                 </div>
             `;
         });
         walletInfoDiv.innerHTML = `
             <p><strong>mnemonic:</strong> ${wallet.mnemonic}</p>
             <div style="text-align: center; font-size: 2em; margin: 0.5em 0;">&darr;</div>
-            <p><strong>seed:</strong> (Base64) ${wallet.seed.toBase64()}</p>
+            <p><strong>seed:</strong> ${wallet.seed.toBase64()}</p>
             <div style="text-align: center; font-size: 2em; margin: 0.5em 0;">+</div>
             <p><strong>network:</strong> ${(wallet.network.messagePrefix.toLowerCase().includes("bitcoin")) ? "bitcoin test" : "unknown"}</p>
             <div style="text-align: center; font-size: 2em; margin: 0.5em 0;">&darr;</div>
-            <p><strong>root:</strong> (Base64) ${wallet.root.chainCode.toBase64()}</p>
+            <p><strong>root:</strong> ${wallet.root.chainCode.toBase64()}</p>
             <div style="text-align: center; font-size: 2em; margin: 0.5em 0;">&darr;</div>
             <h2>derived key pairs:</h2>
             ${childKeysHtml}
