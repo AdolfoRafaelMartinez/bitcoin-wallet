@@ -1,4 +1,4 @@
-import { createHDWallet } from './createHDWalletM49.js';
+import { create_hd_wallet_bitcoin, create_hd_wallet_ethereum } from './createHDWalletM49.js';
 const createWalletBtn = document.getElementById('createWalletBtn');
 const walletInfoDiv = document.getElementById('walletInfo');
 const spinner = document.getElementById('spinner');
@@ -17,7 +17,18 @@ createWalletBtn.addEventListener('click', () => {
             return;
         }
         const network = networkSelector.value;
-        const wallet = createHDWallet(mnemonic, network);
+        const wallet = null;
+        switch (network) {
+          case "bitcoin_testnet":
+            wallet = create_hd_wallet(mnemonic, network);
+            break;
+          case "ethereum_sepolia":
+            wallet = ethers.Wallet.fromPhrase(mnemonic);
+            break;
+          default:
+            alert("oh oh!");
+        }
+
         let childKeysHtml = '';
         wallet.childKeys.forEach(key => {
             childKeysHtml += `
