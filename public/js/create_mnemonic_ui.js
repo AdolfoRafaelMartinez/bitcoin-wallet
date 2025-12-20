@@ -1,9 +1,11 @@
-import bip39 from "bip39";
-const create_mnemonic = document.getElementById('create_mnemonic_button');
-const mnemonic_info_element = document.getElementById('mnemonic_info_div');
-const spinner = document.getElementById('spinner');
 
-create_mnemonic.addEventListener('click', () => {
+import bip39 from "bip39";
+
+document.addEventListener('DOMContentLoaded', () => {
+    const create_mnemonic = document.getElementById('create_mnemonic_button');
+    const mnemonic_info_element = document.getElementById('mnemonic_info_div');
+    const spinner = document.getElementById('spinner');
+    
     mnemonic_info_element.innerHTML = '';
     spinner.style.display = 'block';
 
