@@ -48,13 +48,27 @@ createWalletBtn.addEventListener('click', () => {
                 <hr>
             `;
         } else if (network === 'ethereum_sepolia') {
-            const wallet = ethers.Wallet.fromPhrase(mnemonic);
+            const wallet = create_hd_wallet_ethereum(mnemonic);
+            let childKeysHtml = '';
+            wallet.childKeys.forEach(key => {
+                childKeysHtml += `
+                    <div>
+                        <p>Path:<strong> ${key.path}</strong></p>
+                        <p>Address: ${key.address}</p>
+                        <p>Private Key: ${key.privateKey}</p>
+                        <p>Public Key: ${key.publicKey}</p>
+                    </div>
+                    <hr>
+                `;
+            });
+
             walletInfoHtml = `
-                <div>
-                    <p>Address: ${wallet.address}</p>
-                    <p>Private Key: ${wallet.privateKey}</p>
-                    <p>Public Key: ${wallet.publicKey}</p>
-                </div>
+                <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
+                <p><strong>root:</strong> ${wallet.root.mnemonic.phrase}</p>
+                <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
+                <h3>children:</h3>
+                ${childKeysHtml}
+                <hr>
             `;
         } else {
             alert("oh oh!");
