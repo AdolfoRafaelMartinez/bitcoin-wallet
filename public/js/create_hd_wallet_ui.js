@@ -1,3 +1,4 @@
+import { ethers } from "ethers";
 import { create_hd_wallet_bitcoin, create_hd_wallet_ethereum } from './createHDWalletM49.js';
 const createWalletBtn = document.getElementById('createWalletBtn');
 const walletInfoDiv = document.getElementById('walletInfo');
@@ -17,43 +18,49 @@ createWalletBtn.addEventListener('click', () => {
             return;
         }
         const network = networkSelector.value;
-        const wallet = null;
-        switch (network) {
-          case "bitcoin_testnet":
-            wallet = create_hd_wallet(mnemonic, network);
-            break;
-          case "ethereum_sepolia":
-            wallet = ethers.Wallet.fromPhrase(mnemonic);
-            break;
-          default:
+        let walletInfoHtml = '';
+
+        if (network === 'bitcoin_testnet') {
+            const wallet = create_hd_wallet_bitcoin(mnemonic);
+            let childKeysHtml = '';
+            wallet.childKeys.forEach(key => {
+                childKeysHtml += `
+                    <div>
+                        <p>Path:<strong> ${key.path}</strong></p>
+                        <p>Address: ${key.address}</p>
+                        <p>Private Key: ${btoa(key.privateKey)}</p>
+                        <p>Public Key: ${btoa(key.publicKey)}</p>
+                    </div>
+                    <hr>
+                `;
+            });
+
+            walletInfoHtml = `
+                <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
+                <p><strong>seed:</strong> ${wallet.seed.toString('base64')}</p>
+                <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">+</div>
+                <p><strong>network:</strong> ${network}</p>
+                <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
+                <p><strong>root:</strong> ${wallet.root.chainCode.toString('base64')}</p>
+                <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
+                <h3>children:</h3>
+                ${childKeysHtml}
+                <hr>
+            `;
+        } else if (network === 'ethereum_sepolia') {
+            const wallet = ethers.Wallet.fromPhrase(mnemonic);
+            walletInfoHtml = `
+                <div>
+                    <p>Address: ${wallet.address}</p>
+                    <p>Private Key: ${wallet.privateKey}</p>
+                    <p>Public Key: ${wallet.publicKey}</p>
+                </div>
+            `;
+        } else {
             alert("oh oh!");
         }
 
-        let childKeysHtml = '';
-        wallet.childKeys.forEach(key => {
-            childKeysHtml += `
-                <div>
-                    <p>Path:<strong> ${key.path}</strong></p>
-                    <p>Address: ${key.address}</p>
-                    <p>Private Key: ${btoa(key.privateKey)}</p>
-                    <p>Public Key: ${btoa(key.publicKey)}</p>
-                </div>
-                <hr>
-            `;
-        });
-
-        walletInfoDiv.innerHTML = `
-            <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
-            <p><strong>seed:</strong> ${wallet.seed.toString('base64')}</p>
-            <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">+</div>
-            <p><strong>network:</strong> ${network}</p>
-            <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
-            <p><strong>root:</strong> ${wallet.root.chainCode.toString('base64')}</p>
-            <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
-            <h3>children:</h3>
-            ${childKeysHtml}
-            <hr>
-        `;
+        walletInfoDiv.innerHTML = walletInfoHtml;
     } catch (error) {
         console.error('Error creating wallet:', error);
         walletInfoDiv.innerHTML = `Error creating wallet: ${error.message}`;

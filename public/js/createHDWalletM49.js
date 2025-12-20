@@ -19,22 +19,17 @@ export function create_hd_wallet_bitcoin(mnemonic) {
 
     for (let i = 0; i <= 10; i++) {
         const childAccount = root.derivePath(`${path_prefix}/${i}`);
-        let childAddress = "Not implemented for this network";
-
-        if (networkType === 'bitcoin_testnet') {
-            const { address } = bitcoin.payments.p2sh({
-                redeem: bitcoin.payments.p2wpkh({
-                    pubkey: Buffer.from(childAccount.publicKey),
-                    network
-                }),
+        const { address } = bitcoin.payments.p2sh({
+            redeem: bitcoin.payments.p2wpkh({
+                pubkey: Buffer.from(childAccount.publicKey),
                 network
-            });
-            childAddress = address;
-        }
+            }),
+            network
+        });
 
         childKeys.push({
             path: `${path_prefix}/${i}`,
-            address: childAddress,
+            address: address,
             privateKey: childAccount.privateKey.toString('hex'),
             publicKey: childAccount.publicKey.toString('hex')
         });
