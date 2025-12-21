@@ -1,5 +1,3 @@
-import { Core } from '@quicknode/sdk'
-
 const QUICKNODE_URL = 'https://wispy-muddy-mound.btc-testnet4.quiknode.pro/9d3168def96c68f2c77df93184521a4ac1aa661f/';
 
 var myHeaders = new Headers();
@@ -21,5 +19,7 @@ var requestOptions = {
 
 fetch(QUICKNODE_URL, requestOptions)
     .then(response => response.text())
-    .then(result => console.log(result))
+    .then(result => {
+        document.getElementById('output').textContent = result;
+    })
     .catch(error => console.log('error', error));
