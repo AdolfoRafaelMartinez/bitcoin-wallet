@@ -87,4 +87,16 @@ router.post('/transfer-eth', async (req, res) => {
     }
 });
 
+router.get('/get-transaction-receipt/:txHash', async (req, res) => {
+    const { txHash } = req.params;
+    try {
+        const provider = new ethers.JsonRpcProvider("https://wandering-ancient-voice.ethereum-sepolia.quiknode.pro/7e04ac7ec10c33d61d587d0f0e7ba52ca61fc6ba/");
+        const receipt = await provider.getTransactionReceipt(txHash);
+        res.json({ receipt });
+    } catch (error) {
+        console.error('Error getting transaction receipt:', error);
+        res.status(500).json({ error: 'Error getting transaction receipt' });
+    }
+});
+
 export default router;
