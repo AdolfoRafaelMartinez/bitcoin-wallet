@@ -49,7 +49,7 @@ router.post('/get-btc-balance', async (req, res) => {
     const { address } = req.body;
 
     try {
-        const response = await axios.get(`https://blockstream.info/testnet/api/address/${address}/utxo`);
+        const response = await axios.get(`https://blockstream.info/testnet4/api/address/${address}/utxo`);
         const utxos = response.data;
         const balance = utxos.reduce((acc, utxo) => acc + utxo.value, 0) / 100000000;
         res.json({ balance });
