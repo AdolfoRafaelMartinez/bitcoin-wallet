@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import fs from 'fs';
 import { ethers } from 'ethers';
+import axios from 'axios';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -38,6 +39,24 @@ router.get('/transfer_eth', (req, res) => {
 
 router.get('/latest_btc_block', (req, res) => {
     res.sendFile(path.join(__dirname, '../views', 'latest_btc_block.html'));
+});
+
+router.get('/get_btc_balance', (req, res) => {
+    res.sendFile(path.join(__dirname, '../views', 'get_btc_balance.html'));
+});
+
+router.post('/get-btc-balance', async (req, res) => {
+    const { address } = req.body;
+
+    try {
+        const response = await axios.get(`https://blockstream.info/testnet/api/address/${address}/utxo`);
+        const utxos = response.data;
+        const balance = utxos.reduce((acc, utxo) => acc + utxo.value, 0) / 100000000;
+        res.json({ balance });
+    } catch (error) {
+        console.error('Error fetching BTC balance:', error);
+        res.status(500).json({ error: 'Error fetching BTC balance' });
+    }
 });
 
 router.post('/save-mnemonic', (req, res) => {
