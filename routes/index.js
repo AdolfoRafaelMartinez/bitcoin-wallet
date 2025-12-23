@@ -41,6 +41,10 @@ router.get('/latest_btc_block', (req, res) => {
     res.sendFile(path.join(__dirname, '../views', 'latest_btc_block.html'));
 });
 
+router.get('/load_wallet_view', (req, res) => {
+    res.sendFile(path.join(__dirname, '../views', 'load_wallet_view.html'));
+});
+
 router.get('/get_btc_balance', (req, res) => {
     res.sendFile(path.join(__dirname, '../views', 'get_btc_balance.html'));
 });
@@ -60,13 +64,14 @@ router.post('/get_btc_balance', async (req, res) => {
 });
 
 router.post('/save-mnemonic', (req, res) => {
-    const { mnemonic } = req.body;
-    fs.writeFile('mnemonic.txt', mnemonic, (err) => {
+    const { mnemonic, seed, root, childKeys } = req.body;
+    const data = { mnemonic, seed, root, childKeys };
+    fs.writeFile('wallet.json', JSON.stringify(data, null, 2), (err) => {
         if (err) {
-            console.error('Error saving mnemonic:', err);
-            return res.status(500).json({ message: 'Error saving mnemonic' });
+            console.error('Error saving wallet:', err);
+            return res.status(500).json({ message: 'Error saving wallet' });
         }
-        res.json({ message: 'Mnemonic saved successfully' });
+        res.json({ message: 'Wallet saved successfully' });
     });
 });
 
@@ -97,6 +102,25 @@ router.get('/get-transaction-receipt/:txHash', async (req, res) => {
         console.error('Error getting transaction receipt:', error);
         res.status(500).json({ error: 'Error getting transaction receipt' });
     }
+});
+
+router.get('/load_wallet_data', (req, res) => {
+    fs.readFile('wallet.json', 'utf8', (err, data) => {
+        if (err) {
+            if (err.code === 'ENOENT') {
+                return res.json({ mnemonic: '' });
+            }
+            console.error('Error reading wallet file:', err);
+            return res.status(500).json({ message: 'Error reading wallet file' });
+        }
+        try {
+            const wallet = JSON.parse(data);
+            res.json(wallet);
+        } catch (parseErr) {
+            console.error('Error parsing wallet file:', parseErr);
+            res.status(500).json({ message: 'Error parsing wallet file' });
+        }
+    });
 });
 
 export default router;

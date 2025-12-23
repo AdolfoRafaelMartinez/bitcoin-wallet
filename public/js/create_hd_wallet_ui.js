@@ -6,6 +6,19 @@ const spinner = document.getElementById('spinner');
 const mnemonicInput = document.getElementById('mnemonicInput');
 const networkSelector = document.getElementById('networkSelector');
 
+document.addEventListener('DOMContentLoaded', () => {
+    fetch('/load_wallet_data')
+        .then(response => response.json())
+        .then(data => {
+            if (data.mnemonic) {
+                mnemonicInput.value = data.mnemonic;
+            }
+        })
+        .catch(error => {
+            console.error('Error loading wallet data:', error);
+        });
+});
+
 createWalletBtn.addEventListener('click', () => {
     walletInfoDiv.innerHTML = '';
     spinner.style.display = 'block';
