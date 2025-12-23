@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mnemonic_info_element = document.getElementById('mnemonic_info_div');
     const spinner = document.getElementById('spinner');
     const save_mnemonic_button = document.getElementById('save_mnemonic_button');
+    const network_select = document.getElementById('network_select');
 
     // Generate and display mnemonic on page load
     spinner.style.display = 'block';
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const mnemonicTextElement = document.getElementById('mnemonic_text');
         if (mnemonicTextElement) {
             const mnemonic = mnemonicTextElement.innerText;
+            const network = network_select.value;
             spinner.style.display = 'block';
 
             fetch('/save-mnemonic', {
@@ -32,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ mnemonic: mnemonic }),
+                body: JSON.stringify({ mnemonic, network }),
             })
             .then(response => response.json())
             .then(data => {

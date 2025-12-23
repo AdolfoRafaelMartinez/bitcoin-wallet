@@ -64,8 +64,8 @@ router.post('/get_btc_balance', async (req, res) => {
 });
 
 router.post('/save-mnemonic', (req, res) => {
-    const { mnemonic, seed, root, childKeys } = req.body;
-    const data = { mnemonic, seed, root, childKeys };
+    const { mnemonic, network } = req.body;
+    const data = { mnemonic, network };
     fs.writeFile('wallet.json', JSON.stringify(data, null, 2), (err) => {
         if (err) {
             console.error('Error saving wallet:', err);
