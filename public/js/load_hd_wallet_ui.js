@@ -37,18 +37,18 @@ function createWallet() {
 
         if (network === 'bitcoin-testnet4') {
             wallet = create_hd_wallet_bitcoin(mnemonic);
-            let childKeysHtml = '';
+            let childKeysHtml = '<table border="1"><tr><th>Path</th><th>Address</th><th>Private Key</th><th>Public Key</th></tr>';
             wallet.childKeys.forEach(key => {
                 childKeysHtml += `
-                    <div>
-                        <p>Path:<strong> ${key.path}</strong></p>
-                        <p>Address: ${key.address}</p>
-                        <p>Private Key: ${btoa(key.privateKey)}</p>
-                        <p>Public Key: ${btoa(key.publicKey)}</p>
-                    </div>
-                    <hr>
+                    <tr>
+                        <td><strong>${key.path}</strong></td>
+                        <td>${key.address}</td>
+                        <td>${btoa(key.privateKey)}</td>
+                        <td>${btoa(key.publicKey)}</td>
+                    </tr>
                 `;
             });
+            childKeysHtml += '</table>';
 
             walletInfoHtml = `
                 <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
@@ -64,18 +64,18 @@ function createWallet() {
             `;
         } else if (network === 'ethereum-sepolia') {
             wallet = create_hd_wallet_ethereum(mnemonic);
-            let childKeysHtml = '';
+            let childKeysHtml = '<table border="1"><tr><th>Path</th><th>Address</th><th>Private Key</th><th>Public Key</th></tr>';
             wallet.childKeys.forEach(key => {
                 childKeysHtml += `
-                    <div>
-                        <p>Path:<strong> ${key.path}</strong></p>
-                        <p>Address: <a href="https://sepolia.etherscan.io/address/${key.address}" target="_blank" rel="noopener noreferrer">${key.address}</a></p>
-                        <p>Private Key: ${key.privateKey}</p>
-                        <p>Public Key: ${key.publicKey}</p>
-                    </div>
-                    <hr>
+                    <tr>
+                        <td><strong>${key.path}</strong></td>
+                        <td><a href="https://sepolia.etherscan.io/address/${key.address}" target="_blank" rel="noopener noreferrer">${key.address}</a></td>
+                        <td>${key.privateKey}</td>
+                        <td>${key.publicKey}</td>
+                    </tr>
                 `;
             });
+            childKeysHtml += '</table>';
 
             walletInfoHtml = `
                 <br>
