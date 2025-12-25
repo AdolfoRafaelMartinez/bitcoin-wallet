@@ -64,7 +64,7 @@ async function createWallet() {
             `;
         } else if (network === 'ethereum-sepolia') {
             wallet = create_hd_wallet_ethereum(mnemonic);
-            let childKeysHtml = '<table border="1"><tr><th>Path</th><th>Address</th><th>Private Key</th><th>Public Key</th><th>quicknode bal</th><th>ankr bal</th><th>error</th></tr>';
+            let childKeysHtml = '<table border="1"><tr><th>Path</th><th>Address</th><th>Private Key</th><th>Public Key</th><th>quicknode <span style="font-weight:normal">(bal)</span></th><th>ankr <span style="font-weight:normal">(bal)</span></th><th>|error|</th></tr>';
             const provider = new ethers.JsonRpcProvider("https://wandering-ancient-voice.ethereum-sepolia.quiknode.pro/7e04ac7ec10c33d61d587d0f0e7ba52ca61fc6ba/");
             const provider2 = new ethers.JsonRpcProvider("https://rpc.ankr.com/eth_sepolia/13c41833c6f210b90724b4042a730bed83958ca5d5966952fba35b42ef3e8e31");
             let totalBalance = 0;
@@ -87,18 +87,18 @@ async function createWallet() {
                         <td><a href=\"https://sepolia.etherscan.io/address/${key.address}\" target=\"_blank\" rel=\"noopener noreferrer\">${key.address}</a></td>
                         <td>${key.privateKey}</td>
                         <td>${key.publicKey}</td>
-                        <td>${balanceInEther} ETH</td>
-                        <td>${balanceInEther2} ETH</td>
-                        <td>${error.toFixed(18)} ETH</td>
+                        <td style="text-align: right;">${balanceInEther} ETH</td>
+                        <td style="text-align: right;">${balanceInEther2} ETH</td>
+                        <td style="text-align: right;">${error.toFixed(18)} ETH</td>
                     </tr>
                 `;
             }
             childKeysHtml += `
                 <tr>
                     <td colspan="4" style="text-align: right;"><strong>Totals:</strong></td>
-                    <td>${totalBalance.toFixed(4)} ETH</td>
-                    <td>${totalBalance2.toFixed(4)} ETH</td>
-                    <td>${totalError.toFixed(4)} ETH</td>
+                    <td style="text-align: right;"><strong>${totalBalance.toFixed(4)} ETH</strong></td>
+                    <td style="text-align: right;"><strong>${totalBalance2.toFixed(4)} ETH</strong></td>
+                    <td style="text-align: right;"><strong>${totalError.toFixed(4)} ETH</strong></td>
                 </tr>
             `;
             childKeysHtml += '</table>';
@@ -107,7 +107,6 @@ async function createWallet() {
                 <br>
                 <h3>parent:</h3>
                 <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
-                <p>: </p>
                 <p>address: <a href=\"https://sepolia.etherscan.io/address/${wallet.root.address}\" target=\"_blank\" rel=\"noopener noreferrer\">${wallet.root.address}</a></p>
                 <p>privateKey: ${wallet.root.privateKey}</p>
                 <p>publicKey: ${wallet.root.publicKey}</p>
