@@ -64,12 +64,14 @@ async function createWallet() {
             `;
         } else if (network === 'ethereum-sepolia') {
             wallet = create_hd_wallet_ethereum(mnemonic);
-            let childKeysHtml = '<table border="1"><tr><th>Path</th><th>Address</th><th>Private Key</th><th>Public Key</th><th>Balance</th></tr>';
+            let childKeysHtml = '<table border="1"><tr><th>Path</th><th>Address</th><th>Private Key</th><th>Public Key</th><th>quicknode bal</th></tr>';
             const provider = new ethers.JsonRpcProvider("https://wandering-ancient-voice.ethereum-sepolia.quiknode.pro/7e04ac7ec10c33d61d587d0f0e7ba52ca61fc6ba/");
+            let totalBalance = 0;
 
             for (const key of wallet.childKeys) {
                 const balanceInWei = await provider.getBalance(key.address);
                 const balanceInEther = ethers.formatEther(balanceInWei);
+                totalBalance += parseFloat(balanceInEther);
                 childKeysHtml += `
                     <tr>
                         <td><strong>${key.path}</strong></td>
@@ -80,6 +82,12 @@ async function createWallet() {
                     </tr>
                 `;
             }
+            childKeysHtml += `
+                <tr>
+                    <td colspan="4" style="text-align: right;"><strong>Total Balance:</strong></td>
+                    <td>${totalBalance.toFixed(4)} ETH</td>
+                </tr>
+            `;
             childKeysHtml += '</table>';
 
             walletInfoHtml = `
