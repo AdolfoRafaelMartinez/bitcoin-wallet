@@ -10,12 +10,12 @@ walletFile.addEventListener('change', (event) => {
     const file = event.target.files[0];
     if (file) {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = async (e) => {
             try {
                 const walletData = JSON.parse(e.target.result);
                 mnemonicInput.textContent = walletData.mnemonic;
                 networkSelector.innerHTML = walletData.network;
-                createWallet();
+                await createWallet();
             } catch (error) {
                 console.error('Error parsing wallet file:', error);
                 alert('Error parsing wallet file. Please make sure it is a valid JSON file.');
@@ -25,7 +25,7 @@ walletFile.addEventListener('change', (event) => {
     }
 });
 
-function createWallet() {
+async function createWallet() {
     walletInfoDiv.innerHTML = '';
     spinner.style.display = 'block';
 
@@ -64,17 +64,22 @@ function createWallet() {
             `;
         } else if (network === 'ethereum-sepolia') {
             wallet = create_hd_wallet_ethereum(mnemonic);
-            let childKeysHtml = '<table border="1"><tr><th>Path</th><th>Address</th><th>Private Key</th><th>Public Key</th></tr>';
-            wallet.childKeys.forEach(key => {
+            let childKeysHtml = '<table border="1"><tr><th>Path</th><th>Address</th><th>Private Key</th><th>Public Key</th><th>Balance</th></tr>';
+            const provider = new ethers.JsonRpcProvider("https://wandering-ancient-voice.ethereum-sepolia.quiknode.pro/7e04ac7ec10c33d61d587d0f0e7ba52ca61fc6ba/");
+
+            for (const key of wallet.childKeys) {
+                const balanceInWei = await provider.getBalance(key.address);
+                const balanceInEther = ethers.formatEther(balanceInWei);
                 childKeysHtml += `
                     <tr>
                         <td><strong>${key.path}</strong></td>
-                        <td><a href="https://sepolia.etherscan.io/address/${key.address}" target="_blank" rel="noopener noreferrer">${key.address}</a></td>
+                        <td><a href=\"https://sepolia.etherscan.io/address/${key.address}\" target=\"_blank\" rel=\"noopener noreferrer\">${key.address}</a></td>
                         <td>${key.privateKey}</td>
                         <td>${key.publicKey}</td>
+                        <td>${balanceInEther} ETH</td>
                     </tr>
                 `;
-            });
+            }
             childKeysHtml += '</table>';
 
             walletInfoHtml = `
@@ -82,7 +87,7 @@ function createWallet() {
                 <h3>parent:</h3>
                 <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
                 <p>: </p>
-                <p>address: <a href="https://sepolia.etherscan.io/address/${wallet.root.address}" target="_blank" rel="noopener noreferrer">${wallet.root.address}</a></p>
+                <p>address: <a href=\"https://sepolia.etherscan.io/address/${wallet.root.address}\" target=\"_blank\" rel=\"noopener noreferrer\">${wallet.root.address}</a></p>
                 <p>privateKey: ${wallet.root.privateKey}</p>
                 <p>publicKey: ${wallet.root.publicKey}</p>
                 <div style=\"text-align: left; font-size: 2em; margin: 0.5em 0;\">&darr;</div>
