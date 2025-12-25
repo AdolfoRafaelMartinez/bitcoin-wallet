@@ -64,7 +64,7 @@ async function createWallet() {
             `;
         } else if (network === 'ethereum-sepolia') {
             wallet = create_hd_wallet_ethereum(mnemonic);
-            let childKeysHtml = '<table border="1"><tr><th>Path</th><th>Address</th><th>Private Key</th><th>Public Key</th><th>quicknode <span style="font-weight:normal">(bal)</span></th><th>ankr <span style="font-weight:normal">(bal)</span></th><th>|error|</th></tr>';
+            let childKeysHtml = '<table border="1"><tr><th>Path</th><th>Address</th><th>Private Key</th><th>Public Key</th><th>quicknode <span style="font-weight:normal">(bal)</span></th><th>ankr <span style="font-weight:normal">(bal)</span></th><th>| error |</th></tr>';
             const provider = new ethers.JsonRpcProvider("https://wandering-ancient-voice.ethereum-sepolia.quiknode.pro/7e04ac7ec10c33d61d587d0f0e7ba52ca61fc6ba/");
             const provider2 = new ethers.JsonRpcProvider("https://rpc.ankr.com/eth_sepolia/13c41833c6f210b90724b4042a730bed83958ca5d5966952fba35b42ef3e8e31");
             let totalBalance = 0;
