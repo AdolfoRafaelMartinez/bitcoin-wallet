@@ -124,4 +124,36 @@ router.get('/load_wallet_data', (req, res) => {
     });
 });
 
+router.get('/get_eth_transactions', (req, res) => {
+    res.sendFile(path.join(__dirname, '../views', 'get_eth_transactions.html'));
+});
+
+router.post('/get-eth-transactions', async (req, res) => {
+    const { address } = req.body;
+
+    try {
+        const response = await axios.post(
+            "https://wandering-ancient-voice.ethereum-sepolia.quiknode.pro/7e04ac7ec10c33d61d587d0f0e7ba52ca61fc6ba/",
+            {
+                method: 'qn_getTransactionsByAddress',
+                params: [{
+                    address: address,
+                    page: 1,
+                    perPage: 10
+                }]
+            },
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+
+        res.json(response.data);
+    } catch (error) {
+        console.error('Error fetching ETH transactions:', error);
+        res.status(500).json({ error: 'Error fetching ETH transactions' });
+    }
+});
+
 export default router;
