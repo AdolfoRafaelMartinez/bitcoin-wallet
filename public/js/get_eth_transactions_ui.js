@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const address = document.getElementById('address').value;
 
         try {
-            const response = await fetch('/get-eth-transactions', {
+            const response = await fetch('/get_eth_transactions', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

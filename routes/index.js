@@ -128,7 +128,7 @@ router.get('/get_eth_transactions', (req, res) => {
     res.sendFile(path.join(__dirname, '../views', 'get_eth_transactions.html'));
 });
 
-router.post('/get-eth-transactions', async (req, res) => {
+router.post('/get_eth_transactions', async (req, res) => {
     const { address } = req.body;
 
     try {
